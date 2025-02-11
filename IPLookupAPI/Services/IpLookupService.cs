@@ -11,12 +11,17 @@ namespace IPLookupAPI.Services
         public readonly IpAddressInfoDbContext _context;
         public readonly IMemoryCache _cache;
         public readonly HttpClient _httpClient;
+        public readonly IGetFromIp2cApi _igetFromIp2cApi;
 
-        public IpLookupService(IpAddressInfoDbContext context, IMemoryCache cache, HttpClient httpClient )
+        public IpLookupService(IpAddressInfoDbContext context, 
+                               IMemoryCache cache, 
+                               HttpClient httpClient,
+                               IGetFromIp2cApi getFromIp2CApi)
         {
             _context = context;
             _cache = cache;
             _httpClient = httpClient;
+            _igetFromIp2cApi = getFromIp2CApi;
         }
 
         public async Task<IpAddressInfo?> GetIpInformation(string ip)
@@ -37,7 +42,18 @@ namespace IPLookupAPI.Services
             }
 
             //call ip2c
+            var newIpInfo = await _igetFromIp2cApi.GetFromIp2c(ip);
+            if ( newIpInfo != null ) 
+            {
+                //save in Db
+                _context.Add(newIpInfo);
+                await _context.SaveChangesAsync();
 
+                //store in cache
+                _cache.Set(ip, newIpInfo);
+            }
+
+            return newIpInfo;
         }
     }
 }
