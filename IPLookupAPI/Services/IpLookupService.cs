@@ -10,17 +10,14 @@ namespace IPLookupAPI.Services
     {
         public readonly IpAddressInfoDbContext _context;
         public readonly IMemoryCache _cache;
-        public readonly HttpClient _httpClient;
         public readonly IGetFromIp2cApi _igetFromIp2cApi;
 
         public IpLookupService(IpAddressInfoDbContext context, 
-                               IMemoryCache cache, 
-                               HttpClient httpClient,
+                               IMemoryCache cache,
                                IGetFromIp2cApi getFromIp2CApi)
         {
             _context = context;
             _cache = cache;
-            _httpClient = httpClient;
             _igetFromIp2cApi = getFromIp2CApi;
         }
 

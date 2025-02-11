@@ -15,13 +15,21 @@ namespace IPLookupAPI
             builder.Services.AddDbContext<IpAddressInfoDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            //Add caching
+            builder.Services.AddMemoryCache();
+
+            //Add httpclient
+            builder.Services.AddHttpClient();
+
             //Add services
             builder.Services.AddTransient<IGetFromIp2cApi, GetFromIp2cApi>();
             builder.Services.AddTransient<IIpLookupService, IpLookupService>();
 
+            builder.Services.AddControllers();
+
             var app = builder.Build();
 
-            app.MapGet("/", () => "Hello World!");
+            app.MapControllers();
 
             app.Run();
         }
