@@ -3,7 +3,7 @@
     public class IpAddressInfo
     {
         public int Id { get; set; }
-        public int Ip {  get; set; }
+        public string? Ip {  get; set; }
         public string? CountryName { get; set; }
         public string? TwoLetterCode { get; set; }
         public string? ThreeLetterCode { get; set; }

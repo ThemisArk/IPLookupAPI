@@ -36,8 +36,8 @@ namespace IPLookupAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Ip")
-                        .HasColumnType("int");
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThreeLetterCode")
                         .HasColumnType("nvarchar(max)");

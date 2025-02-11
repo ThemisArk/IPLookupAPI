@@ -17,7 +17,7 @@ namespace IPLookupAPI.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ip = table.Column<int>(type: "int", nullable: false),
+                    Ip = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CountryName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TwoLetterCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ThreeLetterCode = table.Column<string>(type: "nvarchar(max)", nullable: true),

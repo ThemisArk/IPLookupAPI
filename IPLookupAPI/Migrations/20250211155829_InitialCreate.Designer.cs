@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IPLookupAPI.Migrations
 {
     [DbContext(typeof(IpAddressInfoDbContext))]
-    [Migration("20250211154439_InitialCreate")]
+    [Migration("20250211155829_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -39,8 +39,8 @@ namespace IPLookupAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Ip")
-                        .HasColumnType("int");
+                    b.Property<string>("Ip")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ThreeLetterCode")
                         .HasColumnType("nvarchar(max)");
