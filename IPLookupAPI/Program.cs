@@ -1,4 +1,6 @@
 using IPLookupAPI.Data;
+using IPLookupAPI.Services;
+using IPLookupAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace IPLookupAPI
@@ -14,7 +16,8 @@ namespace IPLookupAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             //Add services
-            
+            builder.Services.AddTransient<IGetFromIp2cApi, GetFromIp2cApi>();
+            builder.Services.AddTransient<IIpLookupService, IpLookupService>();
 
             var app = builder.Build();
 
