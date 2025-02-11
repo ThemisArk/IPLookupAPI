@@ -13,6 +13,9 @@ namespace IPLookupAPI
             builder.Services.AddDbContext<IpAddressInfoDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            //Add services
+            
+
             var app = builder.Build();
 
             app.MapGet("/", () => "Hello World!");

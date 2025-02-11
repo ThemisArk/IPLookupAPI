@@ -1,5 +1,7 @@
 ﻿using IPLookupAPI.Models;
 using IPLookupAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
+using System.Net.Http;
 
 namespace IPLookupAPI.Services
 {
@@ -12,9 +14,26 @@ namespace IPLookupAPI.Services
             _httpClient = httpClient;
         }
 
-        public Task<IpAddressInfo> GetFromIp2c(string ip)
+        public async Task<IpAddressInfo?> GetFromIp2c(string ip)
         {
-            throw new NotImplementedException();
+            var url = $"https://ip2c.org/{ip}";
+            var response = await _httpClient.GetStringAsync(url);
+            var responseParts = response.Split(';');
+
+            if(responseParts.Length < 4)
+            {
+                return null;
+            }
+
+            var ipInfo = new IpAddressInfo
+            {
+                Ip = ip,
+                TwoLetterCode = responseParts[1],
+                ThreeLetterCode = responseParts[2],
+                CountryName = responseParts[3]
+            };
+
+            return ipInfo;
         }
     }
 }
