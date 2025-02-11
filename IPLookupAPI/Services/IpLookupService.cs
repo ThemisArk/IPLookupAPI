@@ -5,12 +5,9 @@ namespace IPLookupAPI.Services
 {
     public class IpLookupService : IIpLookupService
     {
-        
-
-
-        public async Task<IpAddressInfo> GetIpInformation(string ip)
+        public Task<IpAddressInfo> GetIpInformation(string ip)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }
