@@ -19,9 +19,25 @@ namespace IPLookupAPI.Services
             _httpClient = httpClient;
         }
 
-        public Task<IpAddressInfo> GetIpInformation(string ip)
+        public async Task<IpAddressInfo?> GetIpInformation(string ip)
         {
-            throw new NotImplementedException();
+            //check cache
+            if (_cache.TryGetValue(ip, out IpAddressInfo? cachedIpInfo))
+            {
+                return cachedIpInfo;
+            }
+
+            //check Db
+            var dbIpInfo = await _context.IpAddressInfos
+                .FirstOrDefaultAsync(i => i.Ip == ip);
+            if( dbIpInfo != null )
+            {
+                _cache.Set(ip, dbIpInfo);
+                return dbIpInfo;
+            }
+
+            //call ip2c
+
         }
     }
 }
