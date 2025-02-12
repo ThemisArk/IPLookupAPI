@@ -11,17 +11,14 @@ namespace IPLookupAPI.Services
         private readonly HttpClient _httpClient;
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly int BatchSize = 100;
-        private readonly IGetFromIp2cApi _igetFromIp2cApi;
 
         public IpUpdateService(IMemoryCache cache,
                                HttpClient httpClient,
-                               IServiceScopeFactory scopeFactory,
-                               IGetFromIp2cApi getFromIp2CApi)
+                               IServiceScopeFactory scopeFactory)
         {
             _cache = cache;
             _httpClient = httpClient;
             _scopeFactory = scopeFactory;
-            _igetFromIp2cApi = getFromIp2CApi;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -35,8 +32,12 @@ namespace IPLookupAPI.Services
 
         private async Task UpdateIpInformation()
         {
+            //inject dbcontext(=scoped) to the background service(=singleton)
             var scope = _scopeFactory.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<IpAddressInfoDbContext>();
+
+            //inject getfromip2capi(=scoped) to the background service(=singleton)
+            var callIp2c = scope.ServiceProvider.GetRequiredService<IGetFromIp2cApi>();
 
             int totalCount = await dbContext.IpAddressInfos.CountAsync();
             int processed = 0;
@@ -53,7 +54,7 @@ namespace IPLookupAPI.Services
                 foreach (var ipInfo in ipBatch)
                 {
                     //Call Ip2c to get updated info
-                    var updatedInfo = await _igetFromIp2cApi.GetFromIp2c(ipInfo.Ip);
+                    var updatedInfo = await callIp2c.GetFromIp2c(ipInfo.Ip);
 
                     if(updatedInfo != null && ipInfo.CountryName != updatedInfo.CountryName)
                     {
