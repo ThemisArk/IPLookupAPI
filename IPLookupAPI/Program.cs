@@ -20,10 +20,12 @@ namespace IPLookupAPI
 
             //Add httpclient
             builder.Services.AddHttpClient<IGetFromIp2cApi, GetFromIp2cApi>();
+            builder.Services.AddHttpClient<IpUpdateService>();
 
             //Add services
             builder.Services.AddScoped<IGetFromIp2cApi, GetFromIp2cApi>();
             builder.Services.AddScoped<IIpLookupService, IpLookupService>();
+            builder.Services.AddHostedService<IpUpdateService>();
 
             builder.Services.AddControllers();
 
