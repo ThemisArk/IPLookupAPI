@@ -19,11 +19,11 @@ namespace IPLookupAPI
             builder.Services.AddMemoryCache();
 
             //Add httpclient
-            builder.Services.AddHttpClient();
+            builder.Services.AddHttpClient<IGetFromIp2cApi, GetFromIp2cApi>();
 
             //Add services
-            builder.Services.AddTransient<IGetFromIp2cApi, GetFromIp2cApi>();
-            builder.Services.AddTransient<IIpLookupService, IpLookupService>();
+            builder.Services.AddScoped<IGetFromIp2cApi, GetFromIp2cApi>();
+            builder.Services.AddScoped<IIpLookupService, IpLookupService>();
 
             builder.Services.AddControllers();
 

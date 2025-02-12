@@ -1,7 +1,5 @@
 ﻿using IPLookupAPI.Models;
 using IPLookupAPI.Services.Interfaces;
-using Microsoft.AspNetCore.Http.HttpResults;
-using System.Net.Http;
 
 namespace IPLookupAPI.Services
 {
